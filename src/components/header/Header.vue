@@ -1,14 +1,43 @@
+<script setup>
+    import { ref } from 'vue';
+
+
+
+    const showBarList = ref(false);
+    const isInventory = ref(false);
+    const selectedBar = ref('Nom du bar');
+    const bars = ref(['Bar 1', 'Bar 2', 'Bar 3', 'Bar 4', 'Bar 5', 'Bar 6', 'Bar 7', 'Bar 8', 'Bar 9']);
+
+
+    const toggleBarList = () => {
+        showBarList.value = !showBarList.value;
+        showUserMenu.value = false;
+    };
+
+    const selectBar = (bar) => {
+        selectedBar.value = bar;
+        showBarList.value = false;
+    };
+
+    const logout = () => {
+        // Handle logout logic here
+        console.log('User logged out');
+    };
+
+
+</script>
+
 <template>
     <div class="header">
-        <div class="user-icon" @click="toggleUserMenu">
-            <img src="user-icon.png" alt="User Icon" />
-        </div>
         <div class="bar-name" @click="toggleBarList">
-            {{ selectedBar }}
+            <p v-if="isInventory"> Inventaire</p>
+            <p v-if="!isInventory">{{ selectedBar }}</p>
+
+            <p></p>
         </div>
 
-        <div v-if="showUserMenu" class="user-menu">
-            <button @click="logout">Déconnection</button>
+        <div cass="user-menu">
+            <button class="logout-button" @click="logout">Deconnection</button>
         </div>
 
         <div v-if="showBarList" class="bar-list">
@@ -17,84 +46,41 @@
             </ul>
         </div>
     </div>
+    <div class="mainPage">
+        <slot />
+    </div>
 </template>
 
-<script>
-import { ref } from 'vue';
-
-export default {
-  setup() {
-    const showUserMenu = ref(false);
-    const showBarList = ref(false);
-    const selectedBar = ref('Nom du bar');
-    const bars = ref(['Bar 1', 'Bar 2', 'Bar 3']);
-
-    const toggleUserMenu = () => {
-      showUserMenu.value = !showUserMenu.value;
-      showBarList.value = false;
-    };
-
-    const toggleBarList = () => {
-      showBarList.value = !showBarList.value;
-      showUserMenu.value = false;
-    };
-
-    const selectBar = (bar) => {
-      selectedBar.value = bar;
-      showBarList.value = false;
-    };
-
-    const logout = () => {
-      // Handle logout logic here
-      console.log('User logged out');
-    };
-
-    return {
-      showUserMenu,
-      showBarList,
-      selectedBar,
-      bars,
-      toggleUserMenu,
-      toggleBarList,
-      selectBar,
-      logout,
-    };
-  },
-};
-</script>
 
 <style>
+
     .header {
         display: flex;
         align-items: center;
+        justify-content: flex-end;
+        gap: 30%;
         padding: 10px;
         background-color: #f5f5f5;
         border-bottom: 1px solid #ccc;
-    }
-
-    .user-icon {
-        margin-right: 20px;
-        cursor: pointer;
     }
 
     .bar-name {
         cursor: pointer;
     }
 
-    .user-menu, .bar-list {
+
+    .mainPage {
+        padding: 15px;
+    }
+
+    .bar-list {
         position: absolute;
         background-color: white;
         border: 1px solid #ccc;
         box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
         z-index: 1000;
-    }
-
-    .user-menu {
-        right: 10px;
-    }
-
-    .bar-list {
-        left: 50px;
+        top:12%;
+        left: 45%;
     }
 
         .bar-list ul {
@@ -111,4 +97,19 @@ export default {
             .bar-list li:hover {
                 background-color: #f0f0f0;
             }
+
+    .logout-button {
+        background-color: #ff4d4d;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        cursor: pointer;
+        font-size: 14px;
+        border-radius: 4px;
+        transition: background-color 0.3s ease;
+    }
+
+        .logout-button:hover {
+            background-color: #ff1a1a;
+        }
 </style>
