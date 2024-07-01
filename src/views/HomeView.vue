@@ -5,5 +5,8 @@ import Home from '../components/Home.vue'
 <template>
   <main>
     <Home/>
+    <Box>
+      
+    </Box>
   </main>
 </template>

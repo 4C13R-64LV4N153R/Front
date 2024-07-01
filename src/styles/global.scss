@@ -1,0 +1,15 @@
+@import 'variables';
+
+// Styles globaux
+body {
+    font-family: $font-family-base, sans-serif;
+    font-size: 18px;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    color: $primary-color;
+}
+
+* {
+    color: $primary-color;
+}
