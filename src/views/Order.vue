@@ -42,7 +42,7 @@ async function order(){
           @updateQuantity="updateProductQuantity"
       />
     </div>
-    <MainButton @click="order">Commander</MainButton>
+    <MainButton @click="order">Valider</MainButton>
   </MainLayout>
 </template>
 

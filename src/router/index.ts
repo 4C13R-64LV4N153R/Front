@@ -4,6 +4,7 @@ import Bars from '@/views/Bars.vue'
 import Inventory from '@/views/Inventory.vue'
 import Order from '@/views/Order.vue'
 import InventoryManagement from "@/views/InventoryManagement.vue";
+import Home from "@/views/Home.vue";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -11,7 +12,7 @@ const router = createRouter({
     {
       path: '/',
       name: 'home',
-      component: HomeView
+      component: Home
     }, 
     {
       path: '/bars',

@@ -62,6 +62,7 @@ const logout = () => {
     box-shadow: 0px 3px 11px 2px rgba(0, 0, 0, 0.3);
     border-radius: 0 0 30px 30px;
     position: relative;
+    background: white;
 }
 
 .user-menu {
