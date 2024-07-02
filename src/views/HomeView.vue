@@ -1,15 +1,10 @@
-<script setup lang="ts">
+<script lang="ts">
 import Home from '../components/Home.vue'
-import Header from '@/components/header/Header.vue';
+import MainLayout from '@/components/header/MainLayout.vue';
 </script>
 
 <template>
-  <main>
-      <Header>
-          <Home />
-          <Box class="red">
-              test
-          </Box>
-      </Header>
-  </main>
+<MainLayout>
+     <Home />
+</MainLayout>
 </template>

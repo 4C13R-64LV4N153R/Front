@@ -1,14 +1,18 @@
 <script setup lang="ts">
-import { ref, computed } from 'vue';
+import { ref, computed, onMounted } from 'vue';
+import MainLayout from '@/components/header/MainLayout.vue';
+import MainButton from '@/components/ui/MainButton.vue';
+import { Product } from '../types/product';
+import { useRouter, useRoute } from 'vue-router';
 
-// Define the product type
-interface Product {
-  name: string;
-  quantity: number;
-  maxQuantity: number;
-}
+const router = useRouter();
+const route = useRoute();
+const barId = ref<string | null>(null);
 
-// Mock data for a bar with ten products
+onMounted(() => {
+  barId.value = route.params.id as string;
+});
+
 const products = ref<Product[]>([
   { name: 'Product A', quantity: 5, maxQuantity: 20 },
   { name: 'Product B', quantity: 15, maxQuantity: 20 },
@@ -22,7 +26,6 @@ const products = ref<Product[]>([
   { name: 'Product J', quantity: 18, maxQuantity: 30 }
 ]);
 
-
 const sortedProducts = computed(() => {
   return products.value.map(product => ({
     ...product,
@@ -31,40 +34,55 @@ const sortedProducts = computed(() => {
 });
 
 const getClass = (product: any): string => {
-    if (product.quantity <= 4) {
-      return 'red';
-    }else if (product.quantity < product.maxQuantity / 2) {
-      return 'orange';
-    } 
-  return 'green';
+  const percentage = (product.quantity / product.maxQuantity) * 100;
+  if (percentage <= 20) {
+    return 'red';
+  } else if (percentage <= 50) {
+    return 'orange';
+  } else {
+    return 'green';
+  }
 };
+
+async function goToOrder() {
+  if (barId.value) {
+    await router.push({ name: 'order', params: { id: barId.value } });
+  }
+}
 </script>
 
 <template>
-  <div class="inventory">
-    <div v-for="product in sortedProducts" :key="product.name" class="product">
-      <p>{{ product.name }}</p>
-      <div class="fill-percentage">
-        <div class="fill" :class="getClass(product)" :style="{ width: product.percentage + '%' }">
+  <MainLayout>
+    <div class="inventory">
+      <div v-for="product in sortedProducts" :key="product.name" class="product">
+        <p>{{ product.name }}</p>
+        <div class="fill-percentage">
+          <div class="fill" :class="getClass(product)" :style="{ width: product.percentage + '%' }"></div>
+          <p class="quantity">{{ product.quantity }}</p>
+          <p class="max-quantity">{{ product.maxQuantity }}</p>
         </div>
-        <p class="quantity">{{product.quantity}}</p>
-        <p class="max-quantity">{{product.maxQuantity}}</p>
       </div>
+      <MainButton @click="goToOrder">Commander</MainButton>
     </div>
-  </div>
+  </MainLayout>
 </template>
 
 <style lang="scss">
+$red: #ff4d4f;
+$orange: #ffa940;
+$green: #52c41a;
+
 .inventory {
   .product {
     display: flex;
     align-items: center;
     gap: 20px;
+    margin-bottom: 20px;
 
     p {
       color: black;
       margin: 0 0 5px;
-      width: 120px
+      width: 120px;
     }
 
     .fill-percentage {
@@ -73,7 +91,7 @@ const getClass = (product: any): string => {
       border-radius: 30px;
       height: 20px;
       position: relative;
-      
+
       p {
         position: absolute;
         top: 50%;
@@ -97,16 +115,16 @@ const getClass = (product: any): string => {
         transition: width 0.5s ease-in-out;
 
         &.red {
-            background-color: $red;
-          }
-        
-          &.orange {
-            background-color: $orange;
-          }
-        
-          &.green {
-            background-color: $green;
-          }
+          background-color: $red;
+        }
+
+        &.orange {
+          background-color: $orange;
+        }
+
+        &.green {
+          background-color: $green;
+        }
       }
     }
   }

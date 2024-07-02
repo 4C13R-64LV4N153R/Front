@@ -1,5 +1,7 @@
 <script setup lang="ts">
 import Box from '@/components/ui/Box.vue';
+import MainLayout from '@/components/header/MainLayout.vue';
+
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 const router = useRouter();
@@ -56,6 +58,7 @@ async function goToDetails(id: string) {
 
 
 <template>
+    <MainLayout>
     <div class="bars">
       <Box
         v-for="bar in bars"
@@ -64,6 +67,7 @@ async function goToDetails(id: string) {
         @click="goToDetails(bar.id)"
       >{{ bar.name }}</Box>
     </div>
+</MainLayout>
 </template>
 
 <style lang="scss">
