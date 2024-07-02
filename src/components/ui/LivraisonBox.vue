@@ -1,17 +1,12 @@
-<script setup>
-import { computed } from 'vue';
+<script setup lang="ts">
+    import { computed } from 'vue';
+    import {Livraison} from '@/types/livraison';
 
-  props: {
-    livraison: {
-      type: Object,
-      required: true
-    },
-    onBoxClick: {
-      type: Function,
-      required: true
+    type Props {
+        livraison: Livraison;
+        onBoxClick: (livraison: Livraison) => void;
     }
-  },
-  setup(props) {
+
     const stateClass = computed(() => {
       switch (props.livraison.state) {
         case 'en_attente':
@@ -25,13 +20,16 @@ import { computed } from 'vue';
       }
     });
 
+    const props = defineProps<Props>();
+
+
     const formattedDate = computed(() => {
-      const options = { year: 'numeric', month: 'long', day: 'numeric' };
-      return props.livraison.date_livraison.toLocaleDateString(undefined, options);
+        const options = { year: 'numeric', month: 'long', day: 'numeric' };
+        return props.livraison.date_livraison.toLocaleDateString(undefined, options);
     });
 
     const handleClick = () => {
-      props.onBoxClick(props.livraison);
+        props.onBoxClick(props.livraison);
     };
 };
 
