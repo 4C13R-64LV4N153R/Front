@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import Box from '@/components/ui/Box.vue';
-import MainLayout from '@/components/header/MainLayout.vue';
+import MainLayout from '@/components/ui/MainLayout.vue';
 
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';

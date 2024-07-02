@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref, computed, onMounted } from 'vue';
-import MainLayout from '@/components/header/MainLayout.vue';
+import MainLayout from '@/components/ui/MainLayout.vue';
 import MainButton from '@/components/ui/MainButton.vue';
 import { Product } from '../types/product';
 import { useRouter, useRoute } from 'vue-router';
