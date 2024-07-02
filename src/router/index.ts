@@ -3,6 +3,7 @@ import HomeView from '../views/HomeView.vue'
 import Bars from '@/views/Bars.vue'
 import Inventory from '@/views/Inventory.vue'
 import Order from '@/views/Order.vue'
+import InventoryManagement from "@/views/InventoryManagement.vue";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -21,6 +22,11 @@ const router = createRouter({
       path: '/inventory/:id',
       name: 'inventory',
       component: Inventory
+    },
+    {
+      path: '/inventory-management/:id',
+      name: 'inventory-management',
+      component: InventoryManagement
     },
     {
       path: '/order/:id',

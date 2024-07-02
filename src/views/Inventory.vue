@@ -30,12 +30,12 @@ const sortedProducts = computed(() => {
   return products.value.map(product => ({
     ...product,
     percentage: (product.quantity / product.maxQuantity) * 100
-  })).sort((a, b) => a.percentage - b.percentage);
+  })).sort((a, b) => a.quantity - b.quantity);
 });
 
 const getClass = (product: any): string => {
   const percentage = (product.quantity / product.maxQuantity) * 100;
-  if (percentage <= 20) {
+  if (product.quantity <= 4) {
     return 'red';
   } else if (percentage <= 50) {
     return 'orange';
@@ -68,9 +68,6 @@ async function goToOrder() {
 </template>
 
 <style lang="scss">
-$red: #ff4d4f;
-$orange: #ffa940;
-$green: #52c41a;
 
 .inventory {
   .product {
