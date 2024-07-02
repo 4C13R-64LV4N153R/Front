@@ -1,4 +1,4 @@
-<script>
+<script setup>
 import { ref} from 'vue';
 
 const showBarList = ref(false);
@@ -27,7 +27,6 @@ const logout = () => {
     <div class="bar-name" @click="toggleBarList">
         <p v-if="isInventory"> Inventaire</p>
         <p v-if="!isInventory">{{ selectedBar }}</p>
-        <p>Nom du bar</p>
     </div>
 
     <div class="user-menu">
@@ -86,7 +85,7 @@ const logout = () => {
     border: 1px solid #ccc;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
     z-index: 1000;
-    top: 12%;
+    top: 70%;
     left: 45%;
 }
 
