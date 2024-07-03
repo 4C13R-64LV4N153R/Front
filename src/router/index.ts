@@ -5,6 +5,8 @@ import Inventory from '@/views/Inventory.vue'
 import Order from '@/views/Order.vue'
 import Delivery from '@/views/Delivery.vue'
 import StockView from '@/views/StockView.vue'
+import InventoryManagement from "@/views/InventoryManagement.vue";
+import Home from "@/views/Home.vue";
 
 const router = createRouter({ 
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -12,7 +14,7 @@ const router = createRouter({
     {
       path: '/',
       name: 'home',
-      component: HomeView
+      component: Home
     }, 
     {
       path: '/bars',
@@ -23,6 +25,11 @@ const router = createRouter({
       path: '/inventory/:id',
       name: 'inventory',
       component: Inventory
+    },
+    {
+      path: '/inventory-management/:id',
+      name: 'inventory-management',
+      component: InventoryManagement
     },
     {
       path: '/order/:id',

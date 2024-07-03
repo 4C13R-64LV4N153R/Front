@@ -3,6 +3,7 @@ import { ref } from 'vue';
 import MainLayout from '@/components/ui/MainLayout.vue';
 import ProductBox from "@/components/ui/ProductBox.vue";
 import type {Product} from "@/types/product";
+import MainButton from "@/components/ui/MainButton.vue";
 
 const state='order';
 const products = ref<Product[]>([
@@ -24,6 +25,12 @@ const updateProductQuantity = (updatedProduct: Product) => {
     products.value[index] = { ...updatedProduct };
   }
 };
+
+async function order(){
+  // api call
+
+  // redirect to order status
+}
 </script>
 
 <template>
@@ -36,6 +43,7 @@ const updateProductQuantity = (updatedProduct: Product) => {
           @updateQuantity="updateProductQuantity"
       />
     </div>
+    <MainButton @click="order">Valider</MainButton>
   </MainLayout>
 </template>
 
