@@ -8,7 +8,7 @@
     </div>
     <div class="login-form">
       <div class="input-group">
-        <input type="text" v-model="username" placeholder="Username" />
+        <input type="text" v-model="email" placeholder="Email" />
       </div>
       <div class="input-group">
         <input type="password" v-model="password" placeholder="Password" />
@@ -20,19 +20,43 @@
 
 <script lang="ts">
 import { defineComponent, ref } from 'vue'
+import { useRouter } from 'vue-router'
 
 export default defineComponent({
   name: 'LoginPage',
   setup() {
-    const username = ref('')
+    const email = ref('')
     const password = ref('')
+    const router = useRouter()
 
-    const login = () => {
-      console.log('Logging in with', username.value, password.value)
+    const login = async () => {
+      console.log('Logging in with', email.value, password.value)
+      try {
+        const response = await fetch('http://localhost:3000/auth/login', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            email: email.value,
+            password: password.value
+          })
+        })
+
+        const data = await response.json()
+        if (data.token) {
+          localStorage.setItem('token', data.token)
+          await router.push('/')
+        } else {
+          console.error('No token received:', data)
+        }
+      } catch (error) {
+        console.error('Error during login:', error)
+      }
     }
 
     return {
-      username,
+      email,
       password,
       login
     }
