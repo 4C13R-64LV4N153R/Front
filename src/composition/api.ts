@@ -13,7 +13,6 @@ axios.interceptors.request.use(
             config.headers.Authorization = `Bearer ${token}`;
             // fait le ici
             axios.defaults.headers.common['Access-Control-Allow-Origin'] = '*';
-
         }
         return config;
     },
