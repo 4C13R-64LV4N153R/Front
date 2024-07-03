@@ -1,0 +1,12 @@
+<script setup>
+</script>
+
+<template>
+  <svg xmlns="http://www.w3.org/2000/svg" width="11" height="15" viewBox="0 0 11 15" fill="none">
+    <path d="M9.5 1.5L2 7.5L9.5 13.5" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+  </svg>
+
+</template>
+
+<style>
+</style>

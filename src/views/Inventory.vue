@@ -8,6 +8,7 @@ import { useRouter, useRoute } from 'vue-router';
 const router = useRouter();
 const route = useRoute();
 const barId = ref<string | null>(null);
+const state='inventory';
 
 onMounted(() => {
   barId.value = route.params.id as string;
@@ -52,7 +53,7 @@ async function goToOrder() {
 </script>
 
 <template>
-  <MainLayout>
+  <MainLayout :stateUser='state'>
     <div class="inventory">
       <div v-for="product in sortedProducts" :key="product.name" class="product">
         <p>{{ product.name }}</p>
@@ -74,7 +75,6 @@ async function goToOrder() {
     display: flex;
     align-items: center;
     gap: 20px;
-    margin-bottom: 20px;
 
     p {
       color: black;

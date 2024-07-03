@@ -2,9 +2,12 @@
 import Box from '@/components/ui/Box.vue';
 import MainLayout from '@/components/ui/MainLayout.vue';
 
-import { ref } from 'vue';
+import { ref, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
+import {useApi} from "@/composition/api";
+const {getBars} = useApi()
 const router = useRouter();
+const state = "bars";
 const bars = ref<any[]>([
   {
     id: '1',
@@ -54,11 +57,20 @@ const getClass = (produit: any[]): string => {
 async function goToDetails(id: string) {
     await router.push({ name: 'inventory', params: { id } })
 }
+
+async function loadBar() {
+ bars.value = await getBars();
+}
+
+onMounted(() => {
+  loadBar()
+});
+
 </script>
 
 
 <template>
-    <MainLayout>
+    <MainLayout :stateUser='state'>
     <div class="bars">
       <Box
         v-for="bar in bars"
