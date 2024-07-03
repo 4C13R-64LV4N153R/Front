@@ -75,7 +75,6 @@ async function goToOrder() {
     display: flex;
     align-items: center;
     gap: 20px;
-    margin-bottom: 20px;
 
     p {
       color: black;

@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import { computed } from 'vue';
-import { type Livraison } from '@/types/livraison';
+import { type Order } from '@/types/order';
 
 type Props = {
-  livraison: Livraison;
-  onBoxClick: (livraison: Livraison) => void;
+  livraison: Order;
+  onBoxClick: (livraison: Order) => void;
 };
 
 const props = defineProps<Props>();
@@ -26,7 +26,7 @@ const stateClass = computed(() => {
 
 const formattedDate = computed(() => {
   const options = { year: 'numeric', month: 'long', day: 'numeric' };
-  return props.livraison.date_livraison.toLocaleDateString(undefined, options);
+  return props.livraison.order_date.toLocaleDateString(undefined, options);
 });
 
 const handleClick = () => {
