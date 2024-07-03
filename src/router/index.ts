@@ -4,8 +4,9 @@ import Bars from '@/views/Bars.vue'
 import Inventory from '@/views/Inventory.vue'
 import Order from '@/views/Order.vue'
 import Delivery from '@/views/Delivery.vue'
+import StockView from '@/views/StockView.vue'
 
-const router = createRouter({
+const router = createRouter({ 
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
     {
@@ -32,7 +33,12 @@ const router = createRouter({
         path: '/delivery',
         name: 'delivery',
         component: Delivery
-    }
+    },
+    {
+      path: '/stock',
+      name: 'stock',
+      component: StockView
+  }
   ]
 })
 

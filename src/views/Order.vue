@@ -4,6 +4,7 @@ import MainLayout from '@/components/ui/MainLayout.vue';
 import ProductBox from "@/components/ui/ProductBox.vue";
 import type {Product} from "@/types/product";
 
+const state='barman';
 const products = ref<Product[]>([
   { name: 'Product A', quantity: 5, maxQuantity: 20 },
   { name: 'Product B', quantity: 15, maxQuantity: 20 },
@@ -26,7 +27,7 @@ const updateProductQuantity = (updatedProduct: Product) => {
 </script>
 
 <template>
-  <MainLayout>
+  <MainLayout :stateUser='state'>
     <div class="order">
       <ProductBox
           v-for="product in products"

@@ -5,6 +5,7 @@ import MainLayout from '@/components/ui/MainLayout.vue';
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 const router = useRouter();
+const state = "barman";
 const bars = ref<any[]>([
   {
     id: '1',
@@ -58,7 +59,7 @@ async function goToDetails(id: string) {
 
 
 <template>
-    <MainLayout>
+    <MainLayout :stateUser='state'>
     <div class="bars">
       <Box
         v-for="bar in bars"

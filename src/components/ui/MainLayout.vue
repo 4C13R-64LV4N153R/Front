@@ -1,20 +1,19 @@
-<script setup>
+<script setup lang="ts">
     import { ref} from 'vue';
 
-    const props = defineProps < {
-        bar: Product;
-    } > ();
+    const props = defineProps<{
+        stateUser: String;
+    }>();
+
     const showBarList = ref(false);
-    const stateUser = ref("barman");
     const selectedBar = ref('Nom du bar');
     const bars = ref(['Bar 1', 'Bar 2', 'Bar 3', 'Bar 4', 'Bar 5', 'Bar 6', 'Bar 7', 'Bar 8', 'Bar 9']);
 
     const toggleBarList = () => {
-        showBarList.value = !showBarList.value;
-        showUserMenu.value = false;
+        if(props.stateUser === "barman")showBarList.value = !showBarList.value;
     };
 
-    const selectBar = (bar) => {
+    const selectBar = (bar: string) => {
         selectedBar.value = bar;
         showBarList.value = false;
     };
@@ -30,7 +29,8 @@
     <div class="bar-name" @click="toggleBarList">
         <p v-if="stateUser == 'livreur'"> Livreur</p>
         <p v-if="stateUser == 'stock'"> Stock</p>
-        <p v-if="stateUser == 'barman'">{{ selectedBar }}</p>
+        <p v-if="stateUser == 'barman'">{{ selectedBar }}</p> 
+        <p v-if="stateUser == 'noState'">Choisir une activité</p>
     </div>
 
     <div class="user-menu">
