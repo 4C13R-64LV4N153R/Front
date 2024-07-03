@@ -6,7 +6,7 @@
     import LivraisonBox from '@/components/ui/LivraisonBox.vue';
 
 
-    const state='livreur';
+    const state='delivery';
     const utilisateur = ref<Utilisateur>({utilisateur_id: 1 , nom: "Pascal",type:"Livreur"});
     const livraisons = ref<Livraison[]>([
         { livraison_id: 1, user: utilisateur.value, bar: "bar 2",product:{ name: 'Product B', quantity: 15, maxQuantity: 20 },state: 'en-attente',date_livraison: new Date() },

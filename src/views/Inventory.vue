@@ -8,7 +8,7 @@ import { useRouter, useRoute } from 'vue-router';
 const router = useRouter();
 const route = useRoute();
 const barId = ref<string | null>(null);
-const state='barman';
+const state='inventory';
 
 onMounted(() => {
   barId.value = route.params.id as string;
