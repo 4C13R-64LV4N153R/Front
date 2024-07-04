@@ -1,7 +1,10 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import Bars from '@/views/Bars.vue'
 import Inventory from '@/views/Inventory.vue'
+import Login from '@/views/Login.vue'
 import Order from '@/views/Order.vue'
+import InventoryManagement from '@/views/InventoryManagement.vue'
+import Home from '@/views/Home.vue'
 import Delivery from '@/views/Delivery.vue'
 import StockView from '@/views/StockView.vue'
 import InventoryManagement from "@/views/InventoryManagement.vue";
@@ -13,8 +16,8 @@ const router = createRouter({
     {
       path: '/',
       name: 'home',
-      component: Home
-    }, 
+      component: HomeView
+    },
     {
       path: '/bars',
       name: 'bars',
@@ -26,6 +29,10 @@ const router = createRouter({
       component: Inventory
     },
     {
+      path: '/login',
+      name: 'login',
+      component: Login
+    }
       path: '/inventory-management/:id',
       name: 'inventory-management',
       component: InventoryManagement
