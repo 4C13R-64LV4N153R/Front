@@ -26,6 +26,7 @@ const products = ref<Product[]>([
 ]);
 const barId = ref()
 const order = ref<Order>()
+const state = "inventoryManagement";
 
 const updateProductQuantity = (updatedProduct: Product) => {
   // call api
@@ -59,7 +60,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <MainLayout>
+  <MainLayout :stateUser='state'>
     <div class="inventory-management">
       <Box class="orderStatus orange" v-if="order">
         <p>livraison en cours</p>

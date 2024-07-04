@@ -14,7 +14,7 @@ const isReturnPage = computed(() => {
     case 'order':
       return true;
     case 'inventory':
-      return true;
+          return true;
     default:
       return false;
   }
@@ -33,7 +33,7 @@ const selectedBar = ref('Nom du bar');
 const bars = ref(['Bar 1', 'Bar 2', 'Bar 3', 'Bar 4', 'Bar 5', 'Bar 6', 'Bar 7', 'Bar 8', 'Bar 9']);
 
 const toggleBarList = () => {
-  if(props.stateUser === "barman")showBarList.value = !showBarList.value;
+  showBarList.value = !showBarList.value;
 };
 
 
@@ -84,10 +84,10 @@ function navigateTo(path: string) {
         </svg>
       </button>
     </div>
-    <div class="bar-name" @click="toggleBarList">
+    <div class="bar-name">
       <p v-if="stateUser == 'delivery'"> Livreur</p>
       <p v-if="stateUser == 'stock'"> Stock</p>
-      <p v-if="stateUser == 'bars' || stateUser == 'order' || stateUser == 'inventory'">{{ selectedBar }}</p>
+      <p v-if="stateUser == 'bars' || stateUser == 'order' || stateUser == 'inventory'  || stateUser == 'inventoryManagement'" @click="toggleBarList">{{ selectedBar }}</p>
       <p v-if="stateUser == 'noState'">Choisir une activité</p>
     </div>
 

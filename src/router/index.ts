@@ -7,8 +7,7 @@ import InventoryManagement from '@/views/InventoryManagement.vue'
 import Home from '@/views/Home.vue'
 import Delivery from '@/views/Delivery.vue'
 import StockView from '@/views/StockView.vue'
-import InventoryManagement from "@/views/InventoryManagement.vue";
-import Home from "@/views/Home.vue";
+
 
 const router = createRouter({ 
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -32,7 +31,8 @@ const router = createRouter({
       path: '/login',
       name: 'login',
       component: Login
-    }
+    },
+    {
       path: '/inventory-management/:id',
       name: 'inventory-management',
       component: InventoryManagement
