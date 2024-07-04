@@ -51,7 +51,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <MainLayout :stateUser='state' :barID="barId?.value">
+  <MainLayout :stateUser='state' :barID=" route.params.id as string">
     <div class="inventory-management">
       <Box class="orderStatus orange" v-if="order">
         <p>Livraison en cours</p>
