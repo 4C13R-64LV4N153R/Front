@@ -55,7 +55,7 @@ async function loadBar() {
 </script>
 
 <template>
-  <MainLayout :stateUser='state'>
+  <MainLayout :stateUser='state' :barID='barId?.value'>
     <div class="inventory">
       <div v-for="product in sortedProducts" :key="product.produit.id" class="product">
 <!--        <img :src="product.produit.img_url"/>-->

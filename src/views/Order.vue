@@ -57,7 +57,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <MainLayout :stateUser='state'>
+  <MainLayout :stateUser='state' :barID="barId?.value">
     <div class="order">
       <ProductBox
           v-for="product in products"
