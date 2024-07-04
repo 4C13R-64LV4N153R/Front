@@ -1,39 +1,43 @@
 <script setup lang="ts">
-    import { type Order } from '@/types/order';
-    import { type User } from '@/types/user';
-    import { ref } from 'vue';
-    import MainLayout from '@/components/ui/MainLayout.vue';
-    import LivraisonBox from '@/components/ui/LivraisonBox.vue';
-    import { DeliveryState } from '@/types/deliveryState';
+import { Order } from '@/types/order';
+import { ref, onMounted } from 'vue';
+import MainLayout from '@/components/ui/MainLayout.vue';
+import LivraisonBox from '@/components/ui/LivraisonBox.vue';
+import {useApi} from "@/composition/api";
+const {getOrders} = useApi()
+const state='stock';
+const orders = ref<Order[]>();
 
+const handleBoxClick = (livraison: Order) => {
+  console.log('Box clicked:', livraison);
+};
 
-    const state='stock';
-    const utilisateur = ref<User>({user_id: 1 , nom: "Pascal",type:"Livreur"});
-    const livraisons = ref<Order[]>([
-        { id: 1, utilisateur_id: utilisateur.value, bar: "bar 2", stocks: { name: 'Product B', quantity: 15, maxQuantity: 20 }, statut: DeliveryState.PENDING,order_date: new Date() },
-        { id: 2, utilisateur_id: utilisateur.value, bar: "bar 2", stocks: { name: 'Product B', quantity: 15, maxQuantity: 20 }, statut: DeliveryState.DELIVERED ,order_date: new Date()},
-        { id: 3, utilisateur_id: utilisateur.value, bar: "bar 2", stocks: { name: 'Product B', quantity: 15, maxQuantity: 20 }, statut: DeliveryState.REFUSE ,order_date: new Date() },
-    ]);
+async function loadOrders() {
+  orders.value = await getOrders();
+}
 
-    const handleBoxClick = (livraison: Order) => {
-        console.log('Box clicked:', livraison);
-    };
-
+onMounted(() => {
+  loadOrders()
+});
 </script>
 
 
 <template>
-    <MainLayout :stateUser='state'>
-        <div>
-            <LivraisonBox v-for="livraison in livraisons"
-                 :key="livraison.id"
-                 :livraison="livraison"
-                 :onBoxClick="handleBoxClick" />
-        </div>
-    </MainLayout>
+  <MainLayout :stateUser='state'>
+    <div class="stock-view">
+      <LivraisonBox v-for="order in orders"
+                    :key="order.id"
+                    :livraison="order"
+                    :onBoxClick="handleBoxClick" />
+    </div>
+  </MainLayout>
 </template>
 
 
 <style lang="scss">
-
+.stock-view {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
 </style>

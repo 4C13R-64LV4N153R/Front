@@ -230,7 +230,7 @@ function navigateTo(path: string) {
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
   z-index: 1000;
   top: 70%;
-  left: 60%;
+  right: 0;
   padding: 10px;
   border-radius: 8px;
 }

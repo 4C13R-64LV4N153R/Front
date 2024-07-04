@@ -1,6 +1,6 @@
 export enum DeliveryState {
-    REFUSE = 'refusé',
-    DELIVERED = 'livré',
-    PENDING = 'en attente',
-    IN_DELIVERY = 'en cours de livraison'
+    REFUSE = 'refusee',
+    DELIVERED = 'livree',
+    PENDING = 'en_attente_de_reponse',
+    IN_DELIVERY = 'prise_en_charge'
 }

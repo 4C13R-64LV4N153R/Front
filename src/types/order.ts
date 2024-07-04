@@ -1,11 +1,14 @@
 import type { Product } from "./product";
 import type {DeliveryState} from "@/types/deliveryState";
+import type {User} from "@/types/user";
+import type {Bar} from "@/types/bar";
 
 export interface Order {
     id?: string;
-    utilisateur_id: string;
     bar_id: string;
-    stocks: Product[];
     statut: DeliveryState;
     date_livraison?: Date;
+    utilisateur: User;
+    produits: Product[];
+    bar: Bar
 }

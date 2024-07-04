@@ -9,12 +9,7 @@ import { DeliveryState } from '@/types/deliveryState';
 
 const {getOrderPending} = useApi()
 const state='delivery';
-const user = ref<User>({user_id: 1 , nom: "Pascal",type:"Livreur"});
-const orders = ref<Order[]>([
-    { id: 1, utilisateur_id: user.value, bar: "bar 2", stocks: { name: 'Product B', quantity: 15, maxQuantity: 20 }, statut: DeliveryState.IN_DELIVERY,order_date: new Date() },
-    { id: 2, utilisateur_id: user.value, bar: "bar 2", stocks: { name: 'Product B', quantity: 15, maxQuantity: 20 }, statut: DeliveryState.IN_DELIVERY ,order_date: new Date()},
-    { id: 3, utilisateur_id: user.value, bar: "bar 2", stocks: { name: 'Product B', quantity: 15, maxQuantity: 20 }, statut: DeliveryState.IN_DELIVERY ,order_date: new Date() },
-]);
+const orders = ref<Order[]>();
 
 const handleBoxClick = (livraison: Order) => {
   console.log('Box clicked:', livraison);

@@ -2,7 +2,7 @@ import axios from "axios";
 import type { Bar } from "@/types/bar";
 import type { Order } from "@/types/order";
 
-const token: string = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTcyMDA5Mzc0NywiZXhwIjoxNzIwMDk3MzQ3fQ.8ISzQ85paJYMDx2xiz0qEZGyTGzUcrN0C9dOoRHch9s";
+const token: string = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTcyMDA5NzkyMywiZXhwIjoxNzIwMTAxNTIzfQ.Af_oQmEppE_5FFs-usLLgmAxM3FZe39NEaOKIMvtR9k";
 
 //todo remove this when login is handle
 axios.interceptors.request.use(
@@ -97,7 +97,7 @@ async function getOrder(id: string): Promise<Order> {
 }
 
 async function getOrderPending(): Promise<Order[]> {
-    const result = await axios.get(buildUrl(`/livraisons`));// todo pending
+    const result = await axios.get(buildUrl(`/livraisons/pending`));
     return result.data;
 }
 
