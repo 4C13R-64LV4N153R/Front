@@ -2,7 +2,7 @@ import axios from "axios";
 import type { Bar } from "@/types/bar";
 import type { Order } from "@/types/order";
 
-const token: string = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTcyMDA5NzkyMywiZXhwIjoxNzIwMTAxNTIzfQ.Af_oQmEppE_5FFs-usLLgmAxM3FZe39NEaOKIMvtR9k";
+const token: string = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTcyMDEwMDk3NiwiZXhwIjoxNzIwMTA0NTc2fQ.D45SEfLacDZfvg6WXDm7wM7T38WIOOZT3FEht6TGo7U";
 
 //todo remove this when login is handle
 axios.interceptors.request.use(
