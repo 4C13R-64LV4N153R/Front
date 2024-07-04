@@ -33,7 +33,7 @@ onMounted(() => {
 
 <template>
   <MainLayout :stateUser='state'>
-    <div>
+    <div class="livraison-box">
       <LivraisonBox v-for="livraison in orders"
                     :key="livraison.id"
                     :livraison="livraison"
@@ -44,5 +44,9 @@ onMounted(() => {
 
 
 <style lang="scss">
-
+.livraison-box {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
 </style>

@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import type { Product } from "@/types/product";
 import Box from "@/components/ui/Box.vue";
-import { defineEmits } from 'vue';
 
 const props = defineProps<{
   product: Product;
@@ -10,22 +9,22 @@ const props = defineProps<{
 const emits = defineEmits(['updateQuantity']);
 
 const add = (product: Product) => {
-  if (product.quantity < product.maxQuantity) {
-    product.quantity += 1;
+  if (product.quantite < product.quantite_max) {
+    product.quantite += 1;
     emits('updateQuantity', product);
   }
 };
 
 const subtract = (product: Product) => {
-  if (product.quantity > 0) {
-    product.quantity -= 1;
+  if (product.quantite > 0) {
+    product.quantite -= 1;
     emits('updateQuantity', product);
   }
 };
 
 const getClass = (product: any): string => {
-  const percentage = (product.quantity / product.maxQuantity) * 100;
-  if (percentage <= 20) {
+  const percentage = (product.quantite / product.quantite_max) * 100;
+  if (percentage <= 4) {
     return 'red';
   } else if (percentage <= 50) {
     return 'orange';
@@ -37,10 +36,10 @@ const getClass = (product: any): string => {
 
 <template>
   <Box class="product-box" :class="getClass(product)">
-    <p>{{ product.name }}</p>
+    <p>{{ product.produit.nom }}</p>
     <div class="quantity-box">
       <button @click="subtract(product)">-</button>
-      <span>{{ product.quantity }}</span>
+      <span>{{ product.quantite }}</span>
       <button @click="add(product)">+</button>
     </div>
   </Box>

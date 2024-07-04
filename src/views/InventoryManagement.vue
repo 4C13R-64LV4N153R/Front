@@ -8,37 +8,28 @@ import {useApi} from "@/composition/api";
 import {useRoute} from "vue-router";
 import type {Order} from "@/types/order";
 import {DeliveryState} from "@/types/deliveryState";
+import type {Bar} from "@/types/bar";
 
-const {getBar, updateOrder, getOrderPendingByBarId} = useApi();
+const {getBar, updateBar, updateOrder, getOrderPendingByBarId} = useApi();
 const route = useRoute();
 
-const products = ref<Product[]>([
-  { name: 'Product A', quantity: 5, maxQuantity: 20 },
-  { name: 'Product B', quantity: 15, maxQuantity: 20 },
-  { name: 'Product C', quantity: 8, maxQuantity: 10 },
-  { name: 'Product D', quantity: 2, maxQuantity: 5 },
-  { name: 'Product E', quantity: 7, maxQuantity: 20 },
-  { name: 'Product F', quantity: 1, maxQuantity: 2 },
-  { name: 'Product G', quantity: 12, maxQuantity: 15 },
-  { name: 'Product H', quantity: 0, maxQuantity: 10 },
-  { name: 'Product I', quantity: 6, maxQuantity: 25 },
-  { name: 'Product J', quantity: 18, maxQuantity: 30 }
-]);
+const bar = ref<Bar>();
 const barId = ref()
 const order = ref<Order>()
 const state = "inventoryManagement";
 
-const updateProductQuantity = (updatedProduct: Product) => {
-  // call api
-  const index = products.value.findIndex(product => product.name === updatedProduct.name);
-  if (index !== -1) {
-    products.value[index] = { ...updatedProduct };
+const updateProductQuantity = async (updatedProduct: Product) => {
+  if (bar.value) {
+    const index = bar.value?.stocks!.findIndex(product => product.produit_id === updatedProduct.produit_id);
+    if (index !== -1) {
+      bar.value!.stocks![index!] = {...updatedProduct};
+    }
+    await updateBar(bar.value, bar.value?.id)
   }
 };
 
 async function loadBar() {
-  const bar = await getBar(barId.value);
-  products.value = bar.stocks;
+  bar.value = await getBar(barId.value);
 }
 async function handleOrderConfirmation() {
   if (order.value && order.value.id) {
@@ -63,14 +54,15 @@ onMounted(() => {
   <MainLayout :stateUser='state' :barID="barId?.value">
     <div class="inventory-management">
       <Box class="orderStatus orange" v-if="order">
-        <p>livraison en cours</p>
+        <p>Livraison en cours</p>
         <div class="button" @click="handleOrderConfirmation">
-          Livrer
+          Reçue
         </div>
       </Box>
       <ProductBox
-          v-for="product in products"
-          :key="product.name"
+          v-if="bar"
+          v-for="product in bar.stocks"
+          :key="product.produit_id"
           :product="product"
           @updateQuantity="updateProductQuantity"
       />

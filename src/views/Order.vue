@@ -14,21 +14,21 @@ const route = useRoute();
 
 const state='order';
 const products = ref<Product[]>([
-  { name: 'Product A', quantity: 5, maxQuantity: 20 },
-  { name: 'Product B', quantity: 15, maxQuantity: 20 },
-  { name: 'Product C', quantity: 8, maxQuantity: 10 },
-  { name: 'Product D', quantity: 2, maxQuantity: 5 },
-  { name: 'Product E', quantity: 7, maxQuantity: 20 },
-  { name: 'Product F', quantity: 1, maxQuantity: 2 },
-  { name: 'Product G', quantity: 12, maxQuantity: 15 },
-  { name: 'Product H', quantity: 0, maxQuantity: 10 },
-  { name: 'Product I', quantity: 6, maxQuantity: 25 },
-  { name: 'Product J', quantity: 18, maxQuantity: 30 }
+  { nom: 'Product A', quantity: 5, maxQuantity: 20 },
+  { nom: 'Product B', quantity: 15, maxQuantity: 20 },
+  { nom: 'Product C', quantity: 8, maxQuantity: 10 },
+  { nom: 'Product D', quantity: 2, maxQuantity: 5 },
+  { nom: 'Product E', quantity: 7, maxQuantity: 20 },
+  { nom: 'Product F', quantity: 1, maxQuantity: 2 },
+  { nom: 'Product G', quantity: 12, maxQuantity: 15 },
+  { nom: 'Product H', quantity: 0, maxQuantity: 10 },
+  { nom: 'Product I', quantity: 6, maxQuantity: 25 },
+  { nom: 'Product J', quantity: 18, maxQuantity: 30 }
 ]);
 const barId = ref()
 
 const updateProductQuantity = (updatedProduct: Product) => {
-  const index = products.value.findIndex(product => product.name === updatedProduct.name);
+  const index = products.value.findIndex(product => product.nom === updatedProduct.nom);
   if (index !== -1) {
     products.value[index] = { ...updatedProduct };
   }
@@ -61,7 +61,7 @@ onMounted(() => {
     <div class="order">
       <ProductBox
           v-for="product in products"
-          :key="product.name"
+          :key="product.nom"
           :product="product"
           @updateQuantity="updateProductQuantity"
       />

@@ -2,12 +2,11 @@ import axios from "axios";
 import type { Bar } from "@/types/bar";
 import type { Order } from "@/types/order";
 
-const token: string = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTcyMDA4MTQ1OSwiZXhwIjoxNzIwMDg1MDU5fQ.ZV3iEe8ffxK2Y4PozieLRwnzu5eecIxnr6hO-o-ZR3A";
+const token: string = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTcyMDA5Mzc0NywiZXhwIjoxNzIwMDk3MzQ3fQ.8ISzQ85paJYMDx2xiz0qEZGyTGzUcrN0C9dOoRHch9s";
 
 //todo remove this when login is handle
 axios.interceptors.request.use(
     (config: any) => {
-        console.log("je passe par l'interceptor")
         if (token) {
             config.headers.Authorization = `Bearer ${token}`;
             // fait le ici
@@ -28,12 +27,12 @@ export type UseApiResult = {
     getBars: () => Promise<Bar[]>
     getBar: (id: string) => Promise<Bar>
     updateBar: (bar: Bar, id: string) => Promise<Bar>
+    getOrderProposal: (id: string) => Promise<Order>
 
     // --- order
     getOrders: () => Promise<Order[]>
     getOrderPending: () => Promise<Order[]>
     getOrderPendingByBarId: (id: string) => Promise<Order>
-    getOrderProposal: (id: string) => Promise<Order>
     createOrder: (order: Order) => Promise<Order>
     updateOrder: (order: Order, id: string) => Promise<Order>
 }
@@ -47,12 +46,12 @@ export function useApi(): UseApiResult {
         getBars,
         getBar,
         updateBar,
+        getOrderProposal,
 
         // --- order
         getOrders,
         getOrderPending,
         getOrderPendingByBarId: getOrder,
-        getOrderProposal,
         createOrder,
         updateOrder,
     }
@@ -75,9 +74,15 @@ async function getBar(id: string): Promise<Bar> {
 }
 
 async function updateBar(bar: Bar, id: string): Promise<Bar> {
-    const result = await axios.post(buildUrl(`/bars/${id}`), bar);
+    const result = await axios.put(buildUrl(`/bars/${id}`), bar);
     return result.data;
 }
+async function getOrderProposal(id: string): Promise<Order> {
+    const result = await axios.get(buildUrl(`/bar/proposal/${id}`)); //todo proposal
+    return result.data;
+}
+
+
 
 // -----------------------------------------------------------------------------------
 // ORDER
@@ -93,11 +98,6 @@ async function getOrder(id: string): Promise<Order> {
 
 async function getOrderPending(): Promise<Order[]> {
     const result = await axios.get(buildUrl(`/livraisons`));// todo pending
-    return result.data;
-}
-
-async function getOrderProposal(id: string): Promise<Order> {
-    const result = await axios.get(buildUrl(`/livraisons/${id}`)); //todo proposal
     return result.data;
 }
 
