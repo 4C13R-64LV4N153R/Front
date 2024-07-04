@@ -1,50 +1,74 @@
 <script setup lang="ts">
 import { useRouter } from 'vue-router';
 import DropDown from "@/components/ui/DropDown.vue";
-import { computed, ref } from "vue";
+import { computed, ref, onMounted } from "vue";
 import MainButton from "@/components/ui/MainButton.vue";
 import { Roles } from "@/types/role";
+import { Option } from "@/types/option";
+
 
 const router = useRouter();
+import {useApi} from "@/composition/api";
+const {getBars} = useApi()
 
-const bars = ref(['bar 1', 'bar 2', 'bar 3', 'bar 4']);
-const roles = [Roles.Barista, Roles.DeliveryPerson, Roles.StockManager];
-
-const role = ref<string | null>(null);
-const bar = ref<string | null>(null);
+const bars = ref([
+  { key: "1", value: "bar 1"},
+  { key: "2", value: "bar 2" },
+  { key: "3", value: "bar 3" }
+]);
+const roles = [
+  { key: Roles.Barista, value: Roles.Barista },
+  { key: Roles.DeliveryPerson, value: Roles.DeliveryPerson },
+  { key: Roles.StockManager, value: Roles.StockManager }
+];
+const role = ref<Option | null>(null);
+const bar = ref<Option | null>(null);
 
 const displayButton = computed(() => {
-  return role.value !== null && (role.value !== Roles.Barista || (role.value === Roles.Barista && bar.value !== null));
+  return role.value !== null && (role.value.value !== Roles.Barista || (role.value.value === Roles.Barista && bar.value !== null));
 });
 
 const displayBars = computed(() => {
-  return role.value === Roles.Barista;
+  return role.value?.value === Roles.Barista;
 });
 
-const updateRole = (selectedRole: string) => {
+const updateRole = (selectedRole: Option) => {
   role.value = selectedRole;
-  if (selectedRole !== Roles.Barista) {
+  if (selectedRole.value !== Roles.Barista) {
     bar.value = null;
   }
 };
 
-const updateBar = (selectedBar: string) => {
+const updateBar = (selectedBar: Option) => {
   bar.value = selectedBar;
 };
 
 async function redirect() {
   try {
-    if (role.value === Roles.Barista && bar.value !== null) {
-      await router.push(`/inventory-management/${bar.value}`);
-    } else if (role.value === Roles.DeliveryPerson) {
+    if (role.value?.value === Roles.Barista && bar.value !== null) {
+      await router.push(`/inventory-management/${bar.value.key}`);
+    } else if (role.value?.value === Roles.DeliveryPerson) {
       await router.push('/order-status');
-    } else if (role.value === Roles.StockManager) {
+    } else if (role.value?.value === Roles.StockManager) {
       await router.push('/bars');
     }
   } catch (error) {
     console.error('Error during redirection:', error);
   }
 }
+
+async function loadBar() {
+  const allInfoBars = await getBars();
+  bars.value = allInfoBars.map(bar => ({
+    key: bar.id,
+    value: bar.nom
+  }));
+}
+
+onMounted(() => {
+  loadBar()
+});
+
 </script>
 
 <template>
@@ -73,7 +97,7 @@ async function redirect() {
     display: flex;
     justify-content: center;
     align-items: center;
-    box-shadow: 0px 3px 11px 2px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 3px 11px 2px rgba(0, 0, 0, 0.3);
     border-radius: 0 0 30px 30px;
     position: relative;
     background: white;

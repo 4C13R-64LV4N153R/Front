@@ -4,6 +4,13 @@ import {onMounted, ref} from "vue";
 import {Product} from "@/types/product";
 import MainLayout from "@/components/ui/MainLayout.vue";
 import Box from "@/components/ui/Box.vue";
+import {useApi} from "@/composition/api";
+import {useRoute} from "vue-router";
+import type {Order} from "@/types/order";
+import {DeliveryState} from "@/types/deliveryState";
+
+const {getBar, updateOrder, getOrderPendingByBarId} = useApi();
+const route = useRoute();
 
 const products = ref<Product[]>([
   { name: 'Product A', quantity: 5, maxQuantity: 20 },
@@ -17,8 +24,8 @@ const products = ref<Product[]>([
   { name: 'Product I', quantity: 6, maxQuantity: 25 },
   { name: 'Product J', quantity: 18, maxQuantity: 30 }
 ]);
-
-const barHasOrder = ref(false)
+const barId = ref()
+const order = ref<Order>()
 
 const updateProductQuantity = (updatedProduct: Product) => {
   // call api
@@ -28,19 +35,33 @@ const updateProductQuantity = (updatedProduct: Product) => {
   }
 };
 
+async function loadBar() {
+  const bar = await getBar(barId.value);
+  products.value = bar.stocks;
+}
 async function handleOrderConfirmation() {
-  // api call
+  if (order.value && order.value.id) {
+    order.value.statut = DeliveryState.DELIVERED;
+
+    await updateOrder(order.value, order.value.id);
+  }
+}
+
+async function loadOrder(){
+  order.value = await getOrderPendingByBarId(barId.value);
 }
 
 onMounted(() => {
-  // api call to set product and productHasOrder
+  barId.value = route.params.id as string;
+  loadBar();
+  loadOrder();
 });
 </script>
 
 <template>
   <MainLayout>
     <div class="inventory-management">
-      <Box class="orderStatus orange" v-if="barHasOrder">
+      <Box class="orderStatus orange" v-if="order">
         <p>livraison en cours</p>
         <div class="button" @click="handleOrderConfirmation">
           Livrer

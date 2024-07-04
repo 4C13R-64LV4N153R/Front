@@ -2,16 +2,14 @@
 import { ref, onMounted, onUnmounted } from 'vue';
 
 const props = defineProps<{
-  items: string[];
+  items: { key: string, value: string }[];
   text: string;
 }>();
 
-const emit = defineEmits(
-    ['select']
-);
+const emit = defineEmits(['select']);
 
 const isOpen = ref(false);
-const selectedItem = ref<string | null>(null);
+const selectedItem = ref<{ key: string, value: string } | null>(null);
 const dropdownRef = ref<HTMLElement | null>(null);
 
 const handleClickOutside = (event: MouseEvent) => {
@@ -32,7 +30,7 @@ const toggleDropdown = () => {
   isOpen.value = !isOpen.value;
 };
 
-const selectItem = (item: string) => {
+const selectItem = (item: { key: string, value: string }) => {
   selectedItem.value = item;
   isOpen.value = false;
   emit('select', item);
@@ -42,15 +40,16 @@ const selectItem = (item: string) => {
 <template>
   <div class="dropdown" ref="dropdownRef">
     <button class="dropdown-toggle" @click="toggleDropdown">
-      {{ selectedItem || text}}
+      {{ selectedItem ? selectedItem.value : text }}
     </button>
     <ul v-if="isOpen" class="dropdown-menu">
-      <li v-for="(item, index) in items" :key="index" @click="selectItem(item)">
-        {{ item }}
+      <li v-for="(item, index) in items" :key="item.key" @click="selectItem(item)">
+        {{ item.value }}
       </li>
     </ul>
   </div>
 </template>
+
 
 <style scoped lang="scss">
 .dropdown {
@@ -85,7 +84,7 @@ const selectItem = (item: string) => {
     z-index: 0;
 
     background-color: white;
-    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
 
     width: calc(100% - 40px);
     max-height: 200px;

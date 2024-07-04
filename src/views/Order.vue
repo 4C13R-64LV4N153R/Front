@@ -1,9 +1,16 @@
 <script setup lang="ts">
-import { ref } from 'vue';
+import { ref, onMounted } from 'vue';
 import MainLayout from '@/components/ui/MainLayout.vue';
 import ProductBox from "@/components/ui/ProductBox.vue";
 import type {Product} from "@/types/product";
 import MainButton from "@/components/ui/MainButton.vue";
+import {Order} from "@/types/order";
+import {DeliveryState} from "@/types/deliveryState";
+import {useApi} from "@/composition/api";
+import {useRoute} from "vue-router";
+const {getOrderProposal, createOrder} = useApi();
+const route = useRoute();
+
 
 const state='order';
 const products = ref<Product[]>([
@@ -18,6 +25,7 @@ const products = ref<Product[]>([
   { name: 'Product I', quantity: 6, maxQuantity: 25 },
   { name: 'Product J', quantity: 18, maxQuantity: 30 }
 ]);
+const barId = ref()
 
 const updateProductQuantity = (updatedProduct: Product) => {
   const index = products.value.findIndex(product => product.name === updatedProduct.name);
@@ -26,11 +34,26 @@ const updateProductQuantity = (updatedProduct: Product) => {
   }
 };
 
-async function order(){
-  // api call
-
-  // redirect to order status
+async function loadOrderProposal() {
+  const bar = await getOrderProposal(barId.value);
+  products.value = bar.stocks;
 }
+
+async function handleOrderConfirmation() {
+  const order: Order = {
+    utilisateur_id: "todo",
+    bar_id: barId.value,
+    stocks: products.value,
+    statut: DeliveryState.PENDING,
+  }
+
+  await createOrder(order);
+}
+
+onMounted(() => {
+  barId.value = route.params.id as string;
+  loadOrderProposal()
+});
 </script>
 
 <template>
@@ -43,7 +66,7 @@ async function order(){
           @updateQuantity="updateProductQuantity"
       />
     </div>
-    <MainButton @click="order">Valider</MainButton>
+    <MainButton @click="handleOrderConfirmation">Valider</MainButton>
   </MainLayout>
 </template>
 

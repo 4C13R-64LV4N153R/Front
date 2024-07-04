@@ -2,16 +2,19 @@
 import { ref, computed, onMounted } from 'vue';
 import MainLayout from '@/components/ui/MainLayout.vue';
 import MainButton from '@/components/ui/MainButton.vue';
-import { Product } from '../types/product';
+import { Product } from '@/types/product';
 import { useRouter, useRoute } from 'vue-router';
+import {useApi} from "@/composition/api";
 
+const {getBar} = useApi();
 const router = useRouter();
 const route = useRoute();
-const barId = ref<string | null>(null);
+const barId = ref<string>();
 const state='inventory';
 
 onMounted(() => {
   barId.value = route.params.id as string;
+  loadBar()
 });
 
 const products = ref<Product[]>([
@@ -50,6 +53,14 @@ async function goToOrder() {
     await router.push({ name: 'order', params: { id: barId.value } });
   }
 }
+
+async function loadBar() {
+  if (barId.value) {
+    const bar = await getBar(barId.value);
+    products.value = bar.stocks;
+  }
+}
+
 </script>
 
 <template>
@@ -59,8 +70,8 @@ async function goToOrder() {
         <p>{{ product.name }}</p>
         <div class="fill-percentage">
           <div class="fill" :class="getClass(product)" :style="{ width: product.percentage + '%' }"></div>
-          <p class="quantity">{{ product.quantity }}</p>
-          <p class="max-quantity">{{ product.maxQuantity }}</p>
+          <p class="quantity">{{ product.quantite }}</p>
+          <p class="max-quantity">{{ product.quantite }}</p>
         </div>
       </div>
       <MainButton @click="goToOrder">Commander</MainButton>

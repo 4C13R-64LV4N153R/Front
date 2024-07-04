@@ -10,7 +10,7 @@ type Props = {
 const props = defineProps<Props>();
 
 const stateClass = computed(() => {
-  switch (props.livraison.state) {
+  switch (props.livraison.statut) {
     case 'en_attente':
       return 'en_attente';
     case 'en_cours':
@@ -39,12 +39,12 @@ const handleClick = () => {
   <div :class="['box', stateClass]" @click="handleClick">
     <div class="box-content">
       <div class="box-row">
-        <span>{{ livraison.bar }}</span>
+        <span>{{ livraison.bar_id }}</span>
         <span>{{ formattedDate }}</span>
       </div>
       <div class="box-row">
-        <span>{{ livraison.product.name }}</span>
-        <span>{{ livraison.product.quantity }}</span>
+        <span>{{ livraison.stocks.nom }}</span>
+        <span>{{ livraison.stocks.quantite }}</span>
       </div>
     </div>
   </div>

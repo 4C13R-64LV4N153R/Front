@@ -1,9 +1,8 @@
 import axios from "axios";
 import type { Bar } from "@/types/bar";
 import type { Order } from "@/types/order";
-import type { DeliveryState } from "@/types/deliveryState";
 
-const token: string = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTcyMDAxMzE5OCwiZXhwIjoxNzIwMDE2Nzk4fQ.8Fi9hPamT7qXp-VTtxfehTRE6D7rzT-1I3QieqoK1bY";
+const token: string = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTcyMDA4MTQ1OSwiZXhwIjoxNzIwMDg1MDU5fQ.ZV3iEe8ffxK2Y4PozieLRwnzu5eecIxnr6hO-o-ZR3A";
 
 //todo remove this when login is handle
 axios.interceptors.request.use(
@@ -33,7 +32,7 @@ export type UseApiResult = {
     // --- order
     getOrders: () => Promise<Order[]>
     getOrderPending: () => Promise<Order[]>
-    getOrder: (id: string) => Promise<Order>
+    getOrderPendingByBarId: (id: string) => Promise<Order>
     getOrderProposal: (id: string) => Promise<Order>
     createOrder: (order: Order) => Promise<Order>
     updateOrder: (order: Order, id: string) => Promise<Order>
@@ -52,7 +51,7 @@ export function useApi(): UseApiResult {
         // --- order
         getOrders,
         getOrderPending,
-        getOrder,
+        getOrderPendingByBarId: getOrder,
         getOrderProposal,
         createOrder,
         updateOrder,
