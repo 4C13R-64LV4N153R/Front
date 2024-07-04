@@ -33,7 +33,7 @@ const isWalletPage = computed(() => {
       return false;
   }
 });
-const selectedBar = ref('Nom du bar');
+    const selectedBar = ref('Nom du bar');
 const bars = ref([
     { key: "1", value: "bar 1"},
     { key: "2", value: "bar 2" },
@@ -56,9 +56,18 @@ const toggleBurgerMenu = () => {
 
 };
 
-const selectBar = (bar: string) => {
-  selectedBar.value = bar;
-  showBarList.value = false;
+const selectBar = (bar: string, id:string) => {
+    selectedBar.value = bar;
+    showBarList.value = false;
+    if (props.stateUser.value == 'inventory') {
+        router.push({ name: 'inventory', param: { id } });
+    }
+    if (props.stateUser.value == 'order') {
+        router.push({ name: 'order', param: { id } });
+    }
+    if (props.stateUser.value == 'inventoryManagement') {
+        router.push({ name: 'inventory-management', param: { id } });
+    }
 };
 
 function returnBtn () {
@@ -138,7 +147,7 @@ function navigateTo(path: string) {
 
         <div v-if="showBarList" class="bar-list" >
             <ul>
-                <li v-for="bar in bars" :key="bar" @click="selectBar(bar.value)">{{ bar.value }}</li>
+                <li v-for="bar in bars" :key="bar" @click="selectBar(bar.value,bar.key)">{{ bar.value }}</li>
             </ul>
         </div>
 
