@@ -27,13 +27,13 @@ export type UseApiResult = {
     getBars: () => Promise<Bar[]>
     getBar: (id: string) => Promise<Bar>
     updateBar: (bar: Bar, id: string) => Promise<Bar>
-    getOrderProposal: (id: string) => Promise<Order>
+    getOrderProposal: (id: string) => Promise<Bar>
 
     // --- order
     getOrders: () => Promise<Order[]>
     getOrderPending: () => Promise<Order[]>
     getOrderPendingByBarId: (id: string) => Promise<Order>
-    createOrder: (order: Order) => Promise<Order>
+    createOrder: (bar: Bar) => Promise<Order>
     updateOrder: (order: Order, id: string) => Promise<Order>
 }
 
@@ -77,8 +77,8 @@ async function updateBar(bar: Bar, id: string): Promise<Bar> {
     const result = await axios.put(buildUrl(`/bars/${id}`), bar);
     return result.data;
 }
-async function getOrderProposal(id: string): Promise<Order> {
-    const result = await axios.get(buildUrl(`/bar/proposal/${id}`)); //todo proposal
+async function getOrderProposal(id: string): Promise<Bar> {
+    const result = await axios.get(buildUrl(`/bars/${id}/proposal`)); //todo proposal
     return result.data;
 }
 
@@ -105,8 +105,8 @@ async function updateOrder(order: Order, id: string): Promise<Order> {
     const result = await axios.post(buildUrl(`/livraisons/${id}`), order);
     return result.data;
 }
-async function createOrder(order: Order): Promise<Order> {
-    const result = await axios.put(buildUrl(`/livraisons`), order);
+async function createOrder(bar: Bar): Promise<Order> {
+    const result = await axios.put(buildUrl(`/livraisons`), bar);
     return result.data;
 }
 

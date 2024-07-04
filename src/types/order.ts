@@ -8,7 +8,7 @@ export interface Order {
     bar_id: string;
     statut: DeliveryState;
     date_livraison?: Date;
-    utilisateur: User;
+    utilisateur?: User;
     produits: Product[];
     bar: Bar
 }

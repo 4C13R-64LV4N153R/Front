@@ -4,47 +4,35 @@ import MainLayout from '@/components/ui/MainLayout.vue';
 import ProductBox from "@/components/ui/ProductBox.vue";
 import type {Product} from "@/types/product";
 import MainButton from "@/components/ui/MainButton.vue";
-import {Order} from "@/types/order";
-import {DeliveryState} from "@/types/deliveryState";
 import {useApi} from "@/composition/api";
 import {useRoute} from "vue-router";
+import type {Bar} from "@/types/bar";
 const {getOrderProposal, createOrder} = useApi();
 const route = useRoute();
 
 
 const state='order';
-const products = ref<Product[]>([
-  { nom: 'Product A', quantity: 5, maxQuantity: 20 },
-  { nom: 'Product B', quantity: 15, maxQuantity: 20 },
-  { nom: 'Product C', quantity: 8, maxQuantity: 10 },
-  { nom: 'Product D', quantity: 2, maxQuantity: 5 },
-  { nom: 'Product E', quantity: 7, maxQuantity: 20 },
-  { nom: 'Product F', quantity: 1, maxQuantity: 2 },
-  { nom: 'Product G', quantity: 12, maxQuantity: 15 },
-  { nom: 'Product H', quantity: 0, maxQuantity: 10 },
-  { nom: 'Product I', quantity: 6, maxQuantity: 25 },
-  { nom: 'Product J', quantity: 18, maxQuantity: 30 }
-]);
+const stocks = ref<Product[]>();
 const barId = ref()
 
-const updateProductQuantity = (updatedProduct: Product) => {
-  const index = products.value.findIndex(product => product.nom === updatedProduct.nom);
-  if (index !== -1) {
-    products.value[index] = { ...updatedProduct };
+const updateProductQuantity = async (updatedProduct: Product) => {
+  if (stocks.value!) {
+    const index = stocks.value!.findIndex(product => product.produit_id === updatedProduct.produit_id);
+    if (index !== -1) {
+      stocks.value![index!] = {...updatedProduct};
+    }
   }
 };
 
 async function loadOrderProposal() {
   const bar = await getOrderProposal(barId.value);
-  products.value = bar.stocks;
+  stocks.value = bar.proposal;
 }
 
 async function handleOrderConfirmation() {
-  const order: Order = {
-    utilisateur_id: "todo",
-    bar_id: barId.value,
-    stocks: products.value,
-    statut: DeliveryState.PENDING,
+  const order: Bar = {
+    id: barId.value,
+    stocks: stocks.value!,
   }
 
   await createOrder(order);
@@ -60,9 +48,9 @@ onMounted(() => {
   <MainLayout :stateUser='state' :barID="barId?.value">
     <div class="order">
       <ProductBox
-          v-for="product in products"
-          :key="product.nom"
-          :product="product"
+          v-for="stock in stocks"
+          :key="stock.produit?.nom"
+          :product="stock"
           @updateQuantity="updateProductQuantity"
       />
     </div>
