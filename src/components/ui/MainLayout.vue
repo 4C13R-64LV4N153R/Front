@@ -59,14 +59,16 @@ const toggleBurgerMenu = () => {
 const selectBar = (bar: string, id:string) => {
     selectedBar.value = bar;
     showBarList.value = false;
-    if (props.stateUser.value == 'inventory') {
-        router.push({ name: 'inventory', param: { id } });
-    }
-    if (props.stateUser.value == 'order') {
-        router.push({ name: 'order', param: { id } });
-    }
-    if (props.stateUser.value == 'inventoryManagement') {
-        router.push({ name: 'inventory-management', param: { id } });
+    if (props.barID) {
+        if (props.stateUser == 'inventory') {
+            router.push({ name: 'inventory', param: { id } });
+        }
+        if (props.stateUser == 'order') {
+            router.push({ name: 'order', param: { id } });
+        }
+        if (props.stateUser == 'inventoryManagement') {
+            router.push({ name: 'inventory-management', param: { id } });
+        }
     }
 };
 
@@ -96,18 +98,18 @@ function navigateTo(path: string) {
         value: bar.nom
 
       }));
-    }
-
-    onMounted(() => {
-        loadBar()
         if (props.barID) {
             //met un foreach pour $
             for (const bar of bars) {
-                if (bar.key === props.barID.value) {
+                if (bar.key === props.barID) {
                     selectedBar.value = bar.value;
                 }
             }
         }
+    }
+
+    onMounted(() => {
+        loadBar()
     });
 </script>
 
