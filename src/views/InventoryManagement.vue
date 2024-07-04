@@ -60,7 +60,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <MainLayout :stateUser='state'>
+  <MainLayout :stateUser='state' :barID="barId?.value">
     <div class="inventory-management">
       <Box class="orderStatus orange" v-if="order">
         <p>livraison en cours</p>
