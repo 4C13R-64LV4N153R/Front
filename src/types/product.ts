@@ -1,5 +1,5 @@
 export interface Product {
     name: string;
-    quantity: number;
-    maxQuantity: number;
+    quantite: number;
+    quantite_max: number;
   }
