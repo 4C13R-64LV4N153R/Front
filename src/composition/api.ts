@@ -1,8 +1,10 @@
 import axios from "axios";
 import type { Bar } from "@/types/bar";
-import type { Order } from "@/types/order";
+import type { Order, OrderChangeStatut } from "@/types/order";
+import Order from "@/views/Order.vue";
+import type { User } from "@/types/user";
 
-const token: string = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTcyMDEwNDMxOSwiZXhwIjoxNzIwMTA3OTE5fQ.hG9r6eCWpTFr9M8V6kbBGNsyBAW8NEvWuuO2KBYKkig";
+const token: string = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTcyMDEyMDU5NCwiZXhwIjoxNzIwMTI0MTk0fQ.qBH9JlzHRQSYPJ9Mo0xN0UuSAzl3R5FUIMOPehd_oeM";
 
 //todo remove this when login is handle
 axios.interceptors.request.use(
@@ -21,6 +23,7 @@ axios.interceptors.request.use(
 
 export type UseApiResult = {
     // --- user
+    getMe:() => Promise<User>
     //todo
 
     // --- bar
@@ -35,12 +38,14 @@ export type UseApiResult = {
     getOrderPendingByBarId: (id: string) => Promise<Order>
     createOrder: (bar: Bar) => Promise<Order>
     updateOrder: (order: Order, id: string) => Promise<Order>
+    updateUserWithUserId:(id: string, change: OrderChangeStatut) => Promise<Order>
 }
 
 export function useApi(): UseApiResult {
     return {
         // --- user
         //todo
+        getMe,
 
         // --- bar
         getBars,
@@ -54,6 +59,7 @@ export function useApi(): UseApiResult {
         getOrderPendingByBarId: getOrder,
         createOrder,
         updateOrder,
+        updateUserWithUserId,
     }
 }
 
@@ -61,6 +67,10 @@ export function useApi(): UseApiResult {
 // USER
 
 //todo
+async function getMe(): Promise<User> {
+    const result = await axios.get(buildUrl(`/me`));
+    return result.data;
+}
 
 // -----------------------------------------------------------------------------------
 // BAR
@@ -105,6 +115,12 @@ async function updateOrder(order: Order, id: string): Promise<Order> {
     const result = await axios.post(buildUrl(`/livraisons/${id}`), order);
     return result.data;
 }
+
+async function updateUserWithUserId(id: string, change: OrderChangeStatut): Promise<Order>{
+    const result = await axios.put(buildUrl(`/livraisons/${id}`),change);
+    return result.data;
+}
+
 async function createOrder(bar: Bar): Promise<Order> {
     const result = await axios.put(buildUrl(`/livraisons`), bar);
     return result.data;
