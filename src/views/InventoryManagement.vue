@@ -19,7 +19,7 @@ const products = ref<Product[]>([
 ]);
 
 const barHasOrder = ref(false)
-
+const state = "inventoryManagement";
 const updateProductQuantity = (updatedProduct: Product) => {
   // call api
   const index = products.value.findIndex(product => product.name === updatedProduct.name);
@@ -38,7 +38,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <MainLayout>
+  <MainLayout :stateUser='state'>
     <div class="inventory-management">
       <Box class="orderStatus orange" v-if="barHasOrder">
         <p>livraison en cours</p>

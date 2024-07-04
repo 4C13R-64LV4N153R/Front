@@ -9,20 +9,6 @@ type Props = {
 
 const props = defineProps<Props>();
 
-const stateClass = computed(() => {
-  switch (props.livraison.state) {
-    case 'en_attente':
-      return 'en_attente';
-    case 'en_cours':
-      return 'en_cours';
-    case 'terminer':
-      return 'terminer';
-    case 'refus':
-      return 'refus';
-    default:
-      return 'en_attente';
-  }
-});
 
 const formattedDate = computed(() => {
   const options = { year: 'numeric', month: 'long', day: 'numeric' };
@@ -36,7 +22,7 @@ const handleClick = () => {
 
 
 <template>
-  <div :class="['box', stateClass]" @click="handleClick">
+  <div :class="['box', props.livraison.state]" @click="handleClick">
     <div class="box-content">
       <div class="box-row">
         <span>{{ livraison.bar }}</span>
