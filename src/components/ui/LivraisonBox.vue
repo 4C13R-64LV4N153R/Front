@@ -2,7 +2,7 @@
 import { computed } from 'vue';
 import { type Order } from '@/types/order';
 import { DeliveryState } from '@/types/deliveryState';
-
+import Box from "@/components/ui/Box.vue";
 
 type Props = {
   livraison: Order;
@@ -38,7 +38,7 @@ const handleClick = () => {
 
 
 <template>
-  <div :class="['boxx', stateClass]" @click="handleClick">
+  <Box :class="[stateClass]" @click="handleClick">
     <div class="box-content">
       <div class="box-row">
           <span>{{ livraison.bar }}</span>
@@ -49,18 +49,10 @@ const handleClick = () => {
           <span>{{ livraison.stocks.quantity }}</span>
       </div>
     </div>
-  </div>
+  </Box>
 </template>
   
 <style lang="scss">
-  .boxx {
-    background-color: white;
-    border-radius: 10px;
-    padding: 15px;
-    margin: 10px 0;
-    cursor: pointer;
-  }
-
     .pending {
         background-color: $orange;
     }
