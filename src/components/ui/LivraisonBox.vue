@@ -22,7 +22,7 @@ const handleClick = () => {
 
 
 <template>
-  <div :class="['box', props.livraison.state]" @click="handleClick">
+  <div :class="['boxx', props.livraison.state]" @click="handleClick">
     <div class="box-content">
       <div class="box-row">
         <span>{{ livraison.bar_id }}</span>
@@ -37,7 +37,7 @@ const handleClick = () => {
 </template>
   
 <style lang="scss">
-  .box {
+  .boxx {
     background-color: white;
     border-radius: 10px;
     padding: 15px;

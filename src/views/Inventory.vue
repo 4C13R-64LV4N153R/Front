@@ -17,29 +17,20 @@ onMounted(() => {
   loadBar()
 });
 
-const products = ref<Product[]>([
-  { name: 'Product A', quantity: 5, maxQuantity: 20 },
-  { name: 'Product B', quantity: 15, maxQuantity: 20 },
-  { name: 'Product C', quantity: 8, maxQuantity: 10 },
-  { name: 'Product D', quantity: 2, maxQuantity: 5 },
-  { name: 'Product E', quantity: 7, maxQuantity: 20 },
-  { name: 'Product F', quantity: 1, maxQuantity: 2 },
-  { name: 'Product G', quantity: 12, maxQuantity: 15 },
-  { name: 'Product H', quantity: 0, maxQuantity: 10 },
-  { name: 'Product I', quantity: 6, maxQuantity: 25 },
-  { name: 'Product J', quantity: 18, maxQuantity: 30 }
-]);
+const products = ref<Product[]>();
 
 const sortedProducts = computed(() => {
-  return products.value.map(product => ({
-    ...product,
-    percentage: (product.quantity / product.maxQuantity) * 100
-  })).sort((a, b) => a.quantity - b.quantity);
+  if (products.value) {
+    return products.value!.map(product => ({
+      ...product,
+      percentage: (product.quantite / product.quantite_max) * 100
+    })).sort((a, b) => a.quantite - b.quantite);
+  }
 });
 
 const getClass = (product: any): string => {
-  const percentage = (product.quantity / product.maxQuantity) * 100;
-  if (product.quantity <= 4) {
+  const percentage = (product.quantite / product.quantite_max) * 100;
+  if (product.quantite <= 4) {
     return 'red';
   } else if (percentage <= 50) {
     return 'orange';
@@ -66,12 +57,13 @@ async function loadBar() {
 <template>
   <MainLayout :stateUser='state'>
     <div class="inventory">
-      <div v-for="product in sortedProducts" :key="product.name" class="product">
-        <p>{{ product.name }}</p>
+      <div v-for="product in sortedProducts" :key="product.produit.id" class="product">
+<!--        <img :src="product.produit.img_url"/>-->
+        <p>{{ product.produit.nom }}</p>
         <div class="fill-percentage">
           <div class="fill" :class="getClass(product)" :style="{ width: product.percentage + '%' }"></div>
           <p class="quantity">{{ product.quantite }}</p>
-          <p class="max-quantity">{{ product.quantite }}</p>
+          <p class="max-quantity">{{ product.quantite_max }}</p>
         </div>
       </div>
       <MainButton @click="goToOrder">Commander</MainButton>
@@ -80,17 +72,19 @@ async function loadBar() {
 </template>
 
 <style lang="scss">
-
 .inventory {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+
   .product {
     display: flex;
-    align-items: center;
-    gap: 20px;
+    flex-direction: column;
+    align-items: flex-start;
 
     p {
       color: black;
       margin: 0 0 5px;
-      width: 120px;
     }
 
     .fill-percentage {
