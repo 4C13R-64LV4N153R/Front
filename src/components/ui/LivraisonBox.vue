@@ -1,14 +1,30 @@
 <script setup lang="ts">
 import { computed } from 'vue';
 import { type Order } from '@/types/order';
+import { DeliveryState } from '@/types/deliveryState';
+
 
 type Props = {
   livraison: Order;
   onBoxClick: (livraison: Order) => void;
 };
 
-const props = defineProps<Props>();
+    const props = defineProps<Props>();
 
+    const stateClass = computed(() => {
+        switch (props.livraison.statut) {
+            case DeliveryState.PENDING:
+                return 'pending';
+            case DeliveryState.IN_DELIVERY:
+                return 'in-delivery';
+            case DeliveryState.DELIVERED:
+                return 'delivered';
+            case DeliveryState.REFUSE:
+                return 'refused';
+            default:
+                return '';
+        }
+    });
 
 const formattedDate = computed(() => {
   const options = { year: 'numeric', month: 'long', day: 'numeric' };
@@ -22,15 +38,15 @@ const handleClick = () => {
 
 
 <template>
-  <div :class="['boxx', props.livraison.state]" @click="handleClick">
+  <div :class="['boxx', stateClass]" @click="handleClick">
     <div class="box-content">
       <div class="box-row">
-        <span>{{ livraison.bar_id }}</span>
+          <span>{{ livraison.bar }}</span>
         <span>{{ formattedDate }}</span>
       </div>
       <div class="box-row">
-        <span>{{ livraison.stocks.nom }}</span>
-        <span>{{ livraison.stocks.quantite }}</span>
+          <span>{{ livraison.stocks.name }}</span>
+          <span>{{ livraison.stocks.quantity }}</span>
       </div>
     </div>
   </div>
@@ -44,22 +60,22 @@ const handleClick = () => {
     margin: 10px 0;
     cursor: pointer;
   }
-  
-  .en_attente {
-    background-color: $orange; 
-  }
-  
-  .en_cours {
-    background-color: $orange; 
-  }
-  
-  .terminer {
-    background-color: $green; 
-  }
 
-  .refus {
-    background-color: $red;
-  }
+    .pending {
+        background-color: $orange;
+    }
+
+    .in-delivery {
+        background-color: $orange;
+    }
+
+    .delivered {
+        background-color: $green;
+    }
+
+    .refused {
+        background-color: $red;
+    }
   
   .box-content {
     display: flex;
