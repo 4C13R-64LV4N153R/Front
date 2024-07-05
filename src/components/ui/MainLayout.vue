@@ -159,13 +159,8 @@ onMounted(() => {
       <ul>
         <li @click="navigateTo('bars')">Stock</li>
         <li @click="navigateTo('delivery')">Livreur</li>
-<<<<<<< HEAD
-        <li @click="navigateTo('home')">Bar</li>
-        <li @click="deconnection">Déconnexion</li>
-=======
         <li @click="navigateTo('inventory-management', 1)">Bar</li>
-        <li @click="returnBtn">Déconnexion</li>
->>>>>>> 6614fd6839bede5759a108b0833d91c284886270
+        <li @click="deconnection">Déconnexion</li>
       </ul>
     </div>
   </div>
