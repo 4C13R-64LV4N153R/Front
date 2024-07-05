@@ -1,7 +1,7 @@
-import axios from 'axios'
-import type { Bar } from '@/types/bar'
-import type { Order, OrderChangeStatut } from '@/types/order'
-import Order from '@/views/Order.vue'
+import axios from "axios";
+import type { Bar } from "@/types/bar";
+import type { Order, OrderChangeStatut } from "@/types/order";
+import type {DeliveryState} from "@/types/deliveryState";
 import type { User } from '@/types/user'
 
 function getToken() {
@@ -38,7 +38,7 @@ export type UseApiResult = {
   getOrderPending: () => Promise<Order[]>
   getOrderPendingByBarId: (id: string) => Promise<Order>
   createOrder: (bar: Bar) => Promise<Order>
-  updateOrder: (order: Order, id: string) => Promise<Order>
+    updateOrder: (state: DeliveryState, id: string) => Promise<Order>
   updateUserWithUserId: (id: string, change: OrderChangeStatut) => Promise<Order>
 }
 
@@ -54,14 +54,14 @@ export function useApi(): UseApiResult {
     updateBar,
     getOrderProposal,
 
-    // --- order
-    getOrders,
-    getOrderPending,
-    getOrderPendingByBarId: getOrder,
-    createOrder,
-    updateOrder,
-    updateUserWithUserId
-  }
+        // --- order
+        getOrders,
+        getOrderPending,
+        getOrderPendingByBarId,
+        createOrder,
+      updateOrder,
+      updateUserWithUserId
+    }
 }
 
 // -----------------------------------------------------------------------------------
@@ -76,43 +76,50 @@ async function getMe(): Promise<User> {
 // -----------------------------------------------------------------------------------
 // BAR
 async function getBars(): Promise<Bar[]> {
-  const result = await axios.get(buildUrl(`/bars`))
-  return result.data
+    const result = await axios.get(buildUrl(`/bars`));
+    return result.data;
 }
 async function getBar(id: string): Promise<Bar> {
-  const result = await axios.get(buildUrl(`/bars/${id}`))
-  return result.data
+    const result = await axios.get(buildUrl(`/bars/${id}`));
+    return result.data;
 }
 
 async function updateBar(bar: Bar, id: string): Promise<Bar> {
-  const result = await axios.put(buildUrl(`/bars/${id}`), bar)
-  return result.data
+    const result = await axios.put(buildUrl(`/bars/${id}`), bar);
+    return result.data;
 }
 async function getOrderProposal(id: string): Promise<Bar> {
-  const result = await axios.get(buildUrl(`/bars/${id}/proposal`)) //todo proposal
-  return result.data
+    const result = await axios.get(buildUrl(`/bars/${id}/proposal`)); //todo proposal
+    return result.data;
 }
+
+
 
 // -----------------------------------------------------------------------------------
 // ORDER
 async function getOrders(): Promise<Order[]> {
-  const result = await axios.get(buildUrl(`/livraisons`))
-  return result.data
+    const result = await axios.get(buildUrl(`/livraisons`));
+    return result.data;
 }
 
 async function getOrder(id: string): Promise<Order> {
-  const result = await axios.get(buildUrl(`/livraisons/${id}`))
-  return result.data
+    const result = await axios.get(buildUrl(`/livraisons/${id}`));
+    return result.data;
 }
 
 async function getOrderPending(): Promise<Order[]> {
-  const result = await axios.get(buildUrl(`/livraisons/pending`))
-  return result.data
+    const result = await axios.get(buildUrl(`/livraisons/pending`));
+    return result.data;
 }
 
-async function updateOrder(order: Order, id: string): Promise<Order> {
-  const result = await axios.post(buildUrl(`/livraisons/${id}`), order)
-  return result.data
+async function getOrderPendingByBarId(id: string): Promise<Order[]> {
+    const result = await axios.get(buildUrl(`/bars/${id}/livraisons/pending`));
+    return result.data;
+}
+
+async function updateOrder(state: DeliveryState, id: string): Promise<Order> {
+    const result = await axios.put(buildUrl(`/livraisons/${id}`), state);
+    return result.data;
 }
 
 async function updateUserWithUserId(id: string, change: OrderChangeStatut): Promise<Order> {
@@ -121,24 +128,24 @@ async function updateUserWithUserId(id: string, change: OrderChangeStatut): Prom
 }
 
 async function createOrder(bar: Bar): Promise<Order> {
-  const result = await axios.put(buildUrl(`/livraisons`), bar)
-  return result.data
+    const result = await axios.post(buildUrl(`/livraisons`), bar);
+    return result.data;
 }
 
 // -----------------------------------------------------------------------------------
 // HELPERS
 
 function buildUrl(url: string, query?: any): string {
-  let fullUrl = import.meta.env.VITE_API_URL + url
-  if (query) {
-    let separator = '?'
-    for (const key of Object.keys(query)) {
-      const value = query[key] ? encodeURIComponent(query[key].toString()) : null
-      if (value !== null) {
-        fullUrl += separator + key + '=' + encodeURIComponent(query[key].toString())
-        separator = '&'
-      }
+    let fullUrl = import.meta.env.VITE_API_URL + url;
+    if(query) {
+        let separator = "?";
+        for(const key of Object.keys(query)) {
+            const value = query[key] ? encodeURIComponent(query[key].toString()) : null;
+            if(value !== null) {
+                fullUrl += separator + key + "=" + encodeURIComponent(query[key].toString());
+                separator = "&";
+            }
+        }
     }
-  }
-  return fullUrl
+    return fullUrl;
 }

@@ -33,14 +33,17 @@ async function loadBar() {
 }
 async function handleOrderConfirmation() {
   if (order.value && order.value.id) {
-    order.value.statut = DeliveryState.DELIVERED;
+    await updateOrder({"statut": DeliveryState.DELIVERED}, order.value.id);
+    setTimeout(()=>{
+      window.location.reload();
 
-    await updateOrder(order.value, order.value.id);
+    },500);
   }
 }
 
 async function loadOrder(){
   order.value = await getOrderPendingByBarId(barId.value);
+  console.log(order.value)
 }
 
 onMounted(() => {
