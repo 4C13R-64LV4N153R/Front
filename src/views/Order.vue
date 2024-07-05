@@ -2,12 +2,11 @@
 import { ref, onMounted } from 'vue';
 import MainLayout from '@/components/ui/MainLayout.vue';
 import ProductBox from "@/components/ui/ProductBox.vue";
-import type {Product} from "@/types/product";
 import MainButton from "@/components/ui/MainButton.vue";
 import {useApi} from "@/composition/api";
 import {useRoute} from "vue-router";
-import type {Bar} from "@/types/bar";
-const {getOrderProposal, createOrder} = useApi();
+import type {User} from "@/types/user";
+const {getOrderProposal, createOrder, getMe} = useApi();
 const route = useRoute();
 
 
@@ -30,9 +29,12 @@ async function loadOrderProposal() {
 }
 
 async function handleOrderConfirmation() {
-  const order: Bar = {
-    id: barId.value,
-    stocks: stocks.value!,
+  const user: User = await getMe();
+
+  const order: any = {
+    bar_id: barId.value,
+    stocks: stocks.value,
+    utilisateur_id: user.id
   }
 
   await createOrder(order);

@@ -37,8 +37,8 @@ export type UseApiResult = {
   getOrders: () => Promise<Order[]>
   getOrderPending: () => Promise<Order[]>
   getOrderPendingByBarId: (id: string) => Promise<Order>
-  createOrder: (bar: Bar) => Promise<Order>
-    updateOrder: (state: DeliveryState, id: string) => Promise<Order>
+  createOrder: (bar: any) => Promise<Order>
+  updateOrder: (state: any, id: string) => Promise<Order>
   updateUserWithUserId: (id: string, change: OrderChangeStatut) => Promise<Order>
 }
 
@@ -112,12 +112,12 @@ async function getOrderPending(): Promise<Order[]> {
     return result.data;
 }
 
-async function getOrderPendingByBarId(id: string): Promise<Order[]> {
+async function getOrderPendingByBarId(id: string): Promise<Order> {
     const result = await axios.get(buildUrl(`/bars/${id}/livraisons/pending`));
     return result.data;
 }
 
-async function updateOrder(state: DeliveryState, id: string): Promise<Order> {
+async function updateOrder(state: any, id: string): Promise<Order> {
     const result = await axios.put(buildUrl(`/livraisons/${id}`), state);
     return result.data;
 }
