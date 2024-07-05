@@ -34,6 +34,10 @@ async function loadBar() {
 async function handleOrderConfirmation() {
   if (order.value && order.value.id) {
     await updateOrder({"statut": DeliveryState.DELIVERED}, order.value.id);
+    setTimeout(()=>{
+      window.location.reload();
+
+    },500);
   }
 }
 
