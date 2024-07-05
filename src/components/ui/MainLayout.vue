@@ -77,6 +77,12 @@ const selectBar = (bar: string, id:string) => {
 
 function returnBtn () {
   router.go(-1);
+    }
+
+function deconnection() {
+    localStorage.removeItem('token');
+    router.push({ name: "login" })
+
 }
 
 function walletBtn() {
@@ -154,7 +160,7 @@ onMounted(() => {
         <li @click="navigateTo('bars')">Stock</li>
         <li @click="navigateTo('delivery')">Livreur</li>
         <li @click="navigateTo('inventory-management', 1)">Bar</li>
-        <li @click="returnBtn">Déconnexion</li>
+        <li @click="deconnection">Déconnexion</li>
       </ul>
     </div>
   </div>
