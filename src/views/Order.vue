@@ -5,7 +5,9 @@ import ProductBox from "@/components/ui/ProductBox.vue";
 import type {Product} from "@/types/product";
 import MainButton from "@/components/ui/MainButton.vue";
 import {useApi} from "@/composition/api";
-import {useRoute} from "vue-router";
+    import { useRoute } from "vue-router";
+    import router from '@/router';
+
 import type {Bar} from "@/types/bar";
 const {getOrderProposal, createOrder} = useApi();
 const route = useRoute();
@@ -35,7 +37,10 @@ async function handleOrderConfirmation() {
     stocks: stocks.value!,
   }
 
-  await createOrder(order);
+    await createOrder(order);
+    setTimeout(() => {
+        router.push({name: 'stock'})
+    }, 500);
 }
 
 onMounted(() => {
