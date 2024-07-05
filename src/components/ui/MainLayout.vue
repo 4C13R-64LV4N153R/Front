@@ -88,8 +88,12 @@ function walletBtn() {
   }
 }
 
-function navigateTo(path: string) {
-  router.push({ name: path })
+function navigateTo(path: string, id?: string) {
+  if (id) {
+    router.push({name: path, params: {id}})
+  } else {
+    router.push({name: path})
+  }
 }
 
 async function loadBar() {
@@ -149,7 +153,7 @@ onMounted(() => {
       <ul>
         <li @click="navigateTo('bars')">Stock</li>
         <li @click="navigateTo('delivery')">Livreur</li>
-        <li @click="navigateTo('home')">Bar</li>
+        <li @click="navigateTo('inventory-management', 1)">Bar</li>
         <li @click="returnBtn">Déconnexion</li>
       </ul>
     </div>

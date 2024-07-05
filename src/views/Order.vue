@@ -12,12 +12,12 @@ const route = useRoute();
 
 
 const state='order';
-const stocks = ref<Product[]>();
+const stocks = ref<any[]>();
 const barId = ref()
 
-const updateProductQuantity = async (updatedProduct: Product) => {
+const updateProductQuantity = async (updatedProduct: any) => {
   if (stocks.value!) {
-    const index = stocks.value!.findIndex(product => product.produit_id === updatedProduct.produit_id);
+    const index = stocks.value!.findIndex(product => product.produit.id === updatedProduct.produit.id);
     if (index !== -1) {
       stocks.value![index!] = {...updatedProduct};
     }
