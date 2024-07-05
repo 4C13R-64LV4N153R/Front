@@ -1,8 +1,9 @@
 import axios from "axios";
 import type { Bar } from "@/types/bar";
 import type { Order } from "@/types/order";
+import type {DeliveryState} from "@/types/deliveryState";
 
-const token: string = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjMsImlhdCI6MTcyMDEwMjAzNywiZXhwIjoxNzIwMTA1NjM3fQ.Yl04coFT-KGuwvOfApYOu8DH3rtWDHbvRL2hgLpHWg0";
+const token: string = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjMsImlhdCI6MTcyMDEwNTc5MywiZXhwIjoxNzIwMTA5MzkzfQ.AZZj3dCBRXNjJrJtuwMyNvUgsYeajiWSZ5oS6uwcnRk";
 
 //todo remove this when login is handle
 axios.interceptors.request.use(
@@ -34,7 +35,7 @@ export type UseApiResult = {
     getOrderPending: () => Promise<Order[]>
     getOrderPendingByBarId: (id: string) => Promise<Order>
     createOrder: (bar: Bar) => Promise<Order>
-    updateOrder: (order: Order, id: string) => Promise<Order>
+    updateOrder: (state: DeliveryState, id: string) => Promise<Order>
 }
 
 export function useApi(): UseApiResult {
@@ -51,7 +52,7 @@ export function useApi(): UseApiResult {
         // --- order
         getOrders,
         getOrderPending,
-        getOrderPendingByBarId: getOrder,
+        getOrderPendingByBarId,
         createOrder,
         updateOrder,
     }
@@ -101,12 +102,17 @@ async function getOrderPending(): Promise<Order[]> {
     return result.data;
 }
 
-async function updateOrder(order: Order, id: string): Promise<Order> {
-    const result = await axios.post(buildUrl(`/livraisons/${id}`), order);
+async function getOrderPendingByBarId(id: string): Promise<Order[]> {
+    const result = await axios.get(buildUrl(`/bars/${id}/livraisons/pending`));
+    return result.data;
+}
+
+async function updateOrder(state: DeliveryState, id: string): Promise<Order> {
+    const result = await axios.put(buildUrl(`/livraisons/${id}`), state);
     return result.data;
 }
 async function createOrder(bar: Bar): Promise<Order> {
-    const result = await axios.put(buildUrl(`/livraisons`), bar);
+    const result = await axios.post(buildUrl(`/livraisons`), bar);
     return result.data;
 }
 
