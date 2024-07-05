@@ -30,9 +30,8 @@ async function loadOrderProposal() {
 
 async function handleOrderConfirmation() {
   const user: User = await getMe();
-
   const order: any = {
-    bar_id: barId.value,
+    bar_id: parseInt(barId.value, 10),
     stocks: stocks.value,
     utilisateur_id: user.id
   }
