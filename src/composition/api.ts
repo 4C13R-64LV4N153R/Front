@@ -69,7 +69,7 @@ export function useApi(): UseApiResult {
 
 //todo
 async function getMe(): Promise<User> {
-  const result = await axios.get(buildUrl(`/me`))
+  const result = await axios.get(buildUrl(`/users/me`))
   return result.data
 }
 

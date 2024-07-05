@@ -55,4 +55,17 @@ const router = createRouter({
   ]
 })
 
+// Navigation guard
+router.beforeEach((to, from, next) => {
+    const token = localStorage.getItem('token');
+
+    if (!token && to.name !== 'login') {
+        next({ name: 'login' });
+    } else if (token && to.name === 'login') {
+        next({ name: 'home' });
+    } else {
+        next();
+    }
+});
+
 export default router
