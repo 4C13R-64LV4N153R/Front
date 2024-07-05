@@ -58,17 +58,21 @@ const toggleBurgerMenu = () => {
 
 const selectBar = (bar: string, id:string) => {
   showBarList.value = false;
-  if (props.barID) {
-    if (props.stateUser == 'inventory') {
-      router.push({ name: 'inventory', param: { id } });
+    if (props.barID) {
+        if (props.stateUser == 'inventory') {
+            router.push({ name: "inventory", params: { id } });
+        }
+        if (props.stateUser == 'order') {
+            router.push({ name: "order", params: { id } });
+        }
+        if (props.stateUser == 'inventoryManagement') {
+            router.push({ name: "inventory-management", params: { id } });
+        }
+        setTimeout(() => {
+            window.location.reload();
+        }, 500);
     }
-    if (props.stateUser == 'order') {
-      router.push({ name: 'order', param: { id } });
-    }
-    if (props.stateUser == 'inventoryManagement') {
-      router.push({ name: 'inventory-management', param: { id } });
-    }
-  }
+
 };
 
 function returnBtn () {

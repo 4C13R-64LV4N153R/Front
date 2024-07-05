@@ -9,6 +9,13 @@ export interface Order {
     statut: DeliveryState;
     date_livraison?: Date;
     utilisateur?: User;
+    utilisateur_id?: string;
     produits: Product[];
     bar: Bar
+}
+
+
+export interface OrderChangeStatut {
+    statut: DeliveryState;
+    utilisateur_id?: Number;
 }

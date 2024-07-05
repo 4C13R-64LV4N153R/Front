@@ -1,60 +1,66 @@
 import axios from "axios";
 import type { Bar } from "@/types/bar";
-import type { Order } from "@/types/order";
+import type { Order, OrderChangeStatut } from "@/types/order";
 import type {DeliveryState} from "@/types/deliveryState";
+import type { User } from '@/types/user'
 
-const token: string = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjMsImlhdCI6MTcyMDEwNTc5MywiZXhwIjoxNzIwMTA5MzkzfQ.AZZj3dCBRXNjJrJtuwMyNvUgsYeajiWSZ5oS6uwcnRk";
+function getToken() {
+  return localStorage.getItem('token')
+}
 
-//todo remove this when login is handle
 axios.interceptors.request.use(
-    (config: any) => {
-        if (token) {
-            config.headers.Authorization = `Bearer ${token}`;
-            // fait le ici
-            axios.defaults.headers.common['Access-Control-Allow-Origin'] = '*';
-        }
-        return config;
-    },
-    (error: any) => {
-        return Promise.reject(error);
+  (config: any) => {
+    const token = getToken()
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`
+      axios.defaults.headers.common['Access-Control-Allow-Origin'] = '*'
     }
-);
+    return config
+  },
+  (error: any) => {
+    return Promise.reject(error)
+  }
+)
 
 export type UseApiResult = {
-    // --- user
-    //todo
+  // --- user
+  getMe: () => Promise<User>
+  //todo
 
-    // --- bar
-    getBars: () => Promise<Bar[]>
-    getBar: (id: string) => Promise<Bar>
-    updateBar: (bar: Bar, id: string) => Promise<Bar>
-    getOrderProposal: (id: string) => Promise<Bar>
+  // --- bar
+  getBars: () => Promise<Bar[]>
+  getBar: (id: string) => Promise<Bar>
+  updateBar: (bar: Bar, id: string) => Promise<Bar>
+  getOrderProposal: (id: string) => Promise<Bar>
 
-    // --- order
-    getOrders: () => Promise<Order[]>
-    getOrderPending: () => Promise<Order[]>
-    getOrderPendingByBarId: (id: string) => Promise<Order>
-    createOrder: (bar: Bar) => Promise<Order>
+  // --- order
+  getOrders: () => Promise<Order[]>
+  getOrderPending: () => Promise<Order[]>
+  getOrderPendingByBarId: (id: string) => Promise<Order>
+  createOrder: (bar: Bar) => Promise<Order>
     updateOrder: (state: DeliveryState, id: string) => Promise<Order>
+  updateUserWithUserId: (id: string, change: OrderChangeStatut) => Promise<Order>
 }
 
 export function useApi(): UseApiResult {
-    return {
-        // --- user
-        //todo
+  return {
+    // --- user
+    //todo
+    getMe,
 
-        // --- bar
-        getBars,
-        getBar,
-        updateBar,
-        getOrderProposal,
+    // --- bar
+    getBars,
+    getBar,
+    updateBar,
+    getOrderProposal,
 
         // --- order
         getOrders,
         getOrderPending,
         getOrderPendingByBarId,
         createOrder,
-        updateOrder,
+      updateOrder,
+      updateUserWithUserId
     }
 }
 
@@ -62,6 +68,10 @@ export function useApi(): UseApiResult {
 // USER
 
 //todo
+async function getMe(): Promise<User> {
+  const result = await axios.get(buildUrl(`/me`))
+  return result.data
+}
 
 // -----------------------------------------------------------------------------------
 // BAR
@@ -111,6 +121,12 @@ async function updateOrder(state: DeliveryState, id: string): Promise<Order> {
     const result = await axios.put(buildUrl(`/livraisons/${id}`), state);
     return result.data;
 }
+
+async function updateUserWithUserId(id: string, change: OrderChangeStatut): Promise<Order> {
+  const result = await axios.put(buildUrl(`/livraisons/${id}`), change)
+  return result.data
+}
+
 async function createOrder(bar: Bar): Promise<Order> {
     const result = await axios.post(buildUrl(`/livraisons`), bar);
     return result.data;
