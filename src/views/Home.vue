@@ -48,7 +48,7 @@ async function redirect() {
     if (role.value?.value === Roles.Barista && bar.value !== null) {
       await router.push(`/inventory-management/${bar.value.key}`);
     } else if (role.value?.value === Roles.DeliveryPerson) {
-      await router.push('/order-status');
+      await router.push('/delivery');
     } else if (role.value?.value === Roles.StockManager) {
       await router.push('/bars');
     }
